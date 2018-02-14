@@ -14,7 +14,7 @@ export class ShoppingListService {
   }
 
   getItems() {
-    this.ingredients.slice();
+    return this.ingredients.slice();
   }
 
   removeItem(index: number) {
