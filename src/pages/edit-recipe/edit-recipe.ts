@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {ActionSheetController, AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {
+  ActionSheetController, AlertController, IonicPage, NavController, NavParams,
+  ToastController
+} from 'ionic-angular';
 import {FormArray, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 
 
@@ -15,7 +18,8 @@ export class EditRecipePage {
 
   constructor(public navParams: NavParams,
               private actionSheetController: ActionSheetController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController) {
     this.mode = navParams.get('mode');
     this.initializeForm();
   }
@@ -53,6 +57,12 @@ export class EditRecipePage {
               for (let i = len - 1; i >= 0; i--) {
                 fArray.removeAt(i);
               }
+              let toast = this.toastCtrl.create({
+                message: 'All Ingredients were deleted',
+                duration: 1500,
+                position: 'bottom'
+              });
+              toast.present();
             }
           }
         },
@@ -84,9 +94,21 @@ export class EditRecipePage {
           text: 'Add',
           handler: data => {
             if (data.name.trim() == '' || data.name == null) {
+              let toast = this.toastCtrl.create({
+                message: 'Please enter a valid value',
+                duration: 1500,
+                position: 'bottom'
+              });
+              toast.present();
               return;
             }
             (<FormArray>this.recipeForm.get('ingredients')).push(new FormControl(data.name, Validators.required));
+            let toast = this.toastCtrl.create({
+              message: 'Item added!',
+              duration: 1500,
+              position: 'bottom'
+            });
+            toast.present();
           }
         }
       ]
