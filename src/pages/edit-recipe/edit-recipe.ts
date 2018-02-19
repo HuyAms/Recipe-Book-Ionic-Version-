@@ -60,7 +60,6 @@ export class EditRecipePage {
   }
 
   onSubmit() {
-    console.log(this.recipeForm);
     const value = this.recipeForm.value;
     let ingredients = [];
     if (value.ingredients.length > 0) {
@@ -68,7 +67,13 @@ export class EditRecipePage {
         return new Ingredient(name, 1);
       });
     }
-    this.recipeService.addRecipe(value.title, value.description, value.difficulty, ingredients);
+
+    if (this.mode == 'Edit') {
+      this.recipeService.updateRecipe(this.index, value.title, value.description, value.difficulty, ingredients);
+    } else {
+      this.recipeService.addRecipe(value.title, value.description, value.difficulty, ingredients);
+    }
+
     this.recipeForm.reset();
     this.navCtrl.popToRoot();
   }
