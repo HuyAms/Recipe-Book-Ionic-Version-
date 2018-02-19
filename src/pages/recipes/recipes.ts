@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {EditRecipePage} from "../edit-recipe/edit-recipe";
 import {Recipe} from "../../models/recipe";
 import {RecipesService} from "../../services/recipes";
+import {RecipePage} from "../recipe/recipe";
 
 /**
  * Generated class for the RecipesPage page.
@@ -30,8 +31,8 @@ export class RecipesPage {
     this.navCtrl.push(EditRecipePage, {mode: 'New'});
   }
 
-  onLoadRecipe() {
-
+  onLoadRecipe(recipe: Recipe, index: number) {
+    this.navCtrl.push(RecipePage, {recipe: recipe, index: index});
   }
 
 }
