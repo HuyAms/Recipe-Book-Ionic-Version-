@@ -22,14 +22,14 @@
   <form (ngSubmit)="onSignin(f)" #f="ngForm">
     <ion-list>
       <ion-item>
-        <ion-label fixed>Main</ion-label>
+        <ion-label fixed>Mail</ion-label>
         <ion-input type="email" ngModel name="email" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label fixed>Password</ion-label>
         <ion-input type="password" ngModel name="password" required></ion-input>
-        <button ion-button block type="submit" [disabled]="!f.valid">Signup</button>
       </ion-item>
     </ion-list>
+    <button ion-button block type="submit" [disabled]="!f.valid">Signup</button>
   </form>
 </ion-content>
