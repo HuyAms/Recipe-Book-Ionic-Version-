@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {MenuController, NavController, Platform} from 'ionic-angular';
+import {isActivatable, MenuController, NavController, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -8,21 +8,32 @@ import {SigninPage} from "../pages/signin/signin";
 import {SignupPage} from "../pages/signup/signup";
 
 import firebase from 'firebase';
+import {AuthService} from "../services/auth";
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  tabsPage:any = TabsPage;
+  rootPage:any = TabsPage;
   signinPage = SigninPage;
   signupPage = SignupPage;
+  isAuthenticated = false;
   @ViewChild('nav') nav: NavController;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private menuCtrl: MenuController, private authService: AuthService) {
   firebase.initializeApp({
     apiKey: "AIzaSyAJ_QEvxUlmnkx-LeXgGheswBf6GFYGQzg",
     authDomain: "recipe-book-ionic-8fc08.firebaseapp.com"
   });
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      this.isAuthenticated = true;
+      this.rootPage = TabsPage;
+    } else {
+      this.isAuthenticated = false;
+      this.rootPage = SigninPage;
+    }
+  })
 
 
     platform.ready().then(() => {
@@ -39,6 +50,7 @@ export class MyApp {
   }
 
   onLogout() {
-
+    this.authService.logout();
+    this.menuCtrl.close();
   }
 }
